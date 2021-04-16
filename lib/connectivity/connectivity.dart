@@ -1,3 +1,3 @@
-mixin MyConnectivity {
+mixin Connectivity {
   Future<bool> isConnected();
 }

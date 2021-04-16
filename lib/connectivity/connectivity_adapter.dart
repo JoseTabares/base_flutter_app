@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'connectivity.dart';
 
-import 'my_connectivity.dart';
-
-class MyConnectivityAdapter implements MyConnectivity {
+class ConnectivityAdapter implements Connectivity {
   @override
   Future<bool> isConnected() async {
     try {

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:base_flutter_app/config/base_flutter_app_config.dart';
-import 'package:base_flutter_app/connectivity/my_connectivity.dart';
+import 'package:base_flutter_app/connectivity/connectivity.dart';
 import 'package:base_models/errors/api_exception.dart';
 import 'package:base_models/errors/app_exception.dart';
 import 'package:base_models/errors/not_internet_exception.dart';
@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 mixin ApiSource {
   String get baseUrl;
   http.Client get client;
-  MyConnectivity get connectivity;
+  Connectivity get connectivity;
 
   Map<String, String> getHeaders(Map<String, String> headers);
 
@@ -48,7 +48,7 @@ mixin ApiSource {
     Map<String, String> headers,
     bool sendHeaders = true,
   }) async {
-    headers = getHeaders(headers);
+    headers = getHeaders(headers ?? {});
     var caller = client
         .get(
           url,
@@ -63,7 +63,7 @@ mixin ApiSource {
     T Function(dynamic value) mapperFunction, {
     Map<String, String> headers,
   }) async {
-    headers = getHeaders(headers);
+    headers = getHeaders(headers ?? {});
     var caller = client.delete(url, headers: headers).timeout(timeout);
 
     return _callApi(caller, mapperFunction);
@@ -75,7 +75,7 @@ mixin ApiSource {
     T Function(dynamic value) mapperFunction, {
     Map<String, String> headers,
   }) async {
-    headers = getHeaders(headers);
+    headers = getHeaders(headers ?? {});
     var newBody = getRequestBody(body);
     log(newBody, name: 'requestBody');
     var caller = client
@@ -94,7 +94,7 @@ mixin ApiSource {
     T Function(dynamic value) mapperFunction, {
     Map<String, String> headers,
   }) async {
-    headers = getHeaders(headers);
+    headers = getHeaders(headers ?? {});
     var bodyString = getRequestBody(body);
     log(bodyString, name: 'requestBody');
     var caller =
@@ -108,7 +108,7 @@ mixin ApiSource {
     T Function(dynamic value) mapperFunction, {
     Map<String, String> headers,
   }) async {
-    headers = getHeaders(headers);
+    headers = getHeaders(headers ?? {});
     log(json.encode(body), name: 'requestBody');
     var caller = client
         .patch(url, body: json.encode(body), headers: headers)
@@ -124,7 +124,7 @@ mixin ApiSource {
       if (!await connectivity.isConnected()) {
         throw AppException(description: L10nConstants.defaultError);
       }
-      headers = getHeaders(headers);
+      headers = getHeaders(headers ?? {});
       var multipart = http.MultipartRequest('POST', Uri.parse(url));
       multipart.headers.addAll(headers);
       multipart.fields.addAll(fields);
