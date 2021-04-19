@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:base_flutter_app/config/base_flutter_app_config.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
@@ -11,8 +10,8 @@ class AppDatabase {
   static const String _dbName = 'appdb';
   static const String _securityDbName = 'secappdb';
   static AppDatabase _singleton;
-  Database _db;
-  Database _securityDb;
+  Database db;
+  Database securityDb;
 
   factory AppDatabase() {
     if (_singleton == null) {
@@ -23,38 +22,25 @@ class AppDatabase {
 
   AppDatabase._();
 
-  Future init({withSecurityDb = true}) async {
-    if (_db == null) {
-      _db = await _setupDataBase(_dbName, false);
+  Future init({String securityDbPass}) async {
+    if (db == null) {
+      db = await _setupDataBase(_dbName, null);
     }
-    if (_securityDb == null && withSecurityDb) {
-      _securityDb = await _setupDataBase(_securityDbName, true);
+    if (securityDb == null && securityDbPass != null) {
+      securityDb = await _setupDataBase(_securityDbName, securityDbPass);
     }
   }
 
-  Future<Database> _setupDataBase(String dbName, bool encrypted) async {
+  Future<Database> _setupDataBase(String dbName, String securityDbPass) async {
     var appDocDirectory = await getApplicationDocumentsDirectory();
     var dbPath = '${appDocDirectory.path}/$dbName.db';
     var dbFactory = databaseFactoryIo;
 
     var codec;
-    if (encrypted) {
-      if (BaseFlutterAppConfig().secDbPassword == null) {
-        Exception(
-            'secDbPassword is null, set it usign BaseFlutterAppConfig().secDbPassword');
-      }
-      codec = getEncryptSembastCodec(
-          password: BaseFlutterAppConfig().secDbPassword);
+    if (securityDbPass != null) {
+      codec = getEncryptSembastCodec(password: securityDbPass);
     }
     return await dbFactory.openDatabase(dbPath, codec: codec);
-  }
-
-  Database get database {
-    return _db;
-  }
-
-  Database get secDatabase {
-    return _securityDb;
   }
 
   Future deleteDatabase() async {
@@ -63,7 +49,7 @@ class AppDatabase {
         .deleteDatabase('${appDocDirectory.path}/$_dbName.db');
     await databaseFactoryIo
         .deleteDatabase('${appDocDirectory.path}/$_securityDbName.db');
-    _db = null;
-    _securityDb = null;
+    db = null;
+    securityDb = null;
   }
 }

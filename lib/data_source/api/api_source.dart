@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:base_flutter_app/config/base_flutter_app_config.dart';
 import 'package:base_flutter_app/connectivity/connectivity.dart';
 import 'package:base_models/errors/api_exception.dart';
 import 'package:base_models/errors/app_exception.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 mixin ApiSource {
-  String get baseUrl;
   http.Client get client;
   Connectivity get connectivity;
 
@@ -202,26 +200,9 @@ mixin ApiSource {
   }
 
   void _showLogs(http.BaseResponse response) {
-    if (BaseFlutterAppConfig().apiLogConfig?.enableUrl ?? false) {
-      log(response.request.url.toString(), name: 'url');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableMethod ?? false) {
-      log(response.request.method, name: 'method');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableHeaders ?? false) {
-      log(response.request.headers.toString(), name: 'headers');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableStatusCode ?? false) {
-      log(response.statusCode.toString(), name: 'statusCode');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableResponseBody ?? false) {
-      if (response is http.Response) {
-        log(response.body, name: 'responseBody');
-      }
-    }
+    log(response.request.url.toString(), name: 'url');
+    log(response.request.method, name: 'method');
+    log(response.request.headers.toString(), name: 'headers');
+    log(response.statusCode.toString(), name: 'statusCode');
   }
 }

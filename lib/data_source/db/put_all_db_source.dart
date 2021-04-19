@@ -5,7 +5,7 @@ import 'package:sembast/sembast.dart';
 import 'config/app_database.dart';
 
 mixin PutAllDbSourceAdapter<T extends BaseModel> implements PutAllDbSource<T> {
-  Database get db => AppDatabase().database;
+  Database get db => AppDatabase().db;
 
   final store = stringMapStoreFactory.store(T.toString());
 

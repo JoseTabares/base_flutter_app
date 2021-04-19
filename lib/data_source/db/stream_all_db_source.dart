@@ -6,7 +6,7 @@ import 'config/app_database.dart';
 mixin StreamAllDbSourceAdapter<T> implements StreamAllDbSource<T> {
   T mapper(Map<String, dynamic> value);
 
-  Database get db => AppDatabase().database;
+  Database get db => AppDatabase().db;
 
   List<SortOrder> get sortOrders => [];
 

@@ -6,7 +6,7 @@ import 'config/app_database.dart';
 mixin SimpleStreamDbSourceAdapter<T> implements SimpleStreamDbSource<T> {
   T mapper(Map<String, dynamic> value);
 
-  Database get db => AppDatabase().database;
+  Database get db => AppDatabase().db;
 
   final store = StoreRef.main();
 

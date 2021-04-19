@@ -6,7 +6,7 @@ import 'config/app_database.dart';
 
 mixin SimplePutDbSourceAdapter<T extends BaseModel>
     implements SimplePutDbSource<T> {
-  Database get db => AppDatabase().database;
+  Database get db => AppDatabase().db;
 
   final store = StoreRef.main();
 

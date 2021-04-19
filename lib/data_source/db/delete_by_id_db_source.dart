@@ -4,7 +4,7 @@ import 'package:sembast/sembast.dart';
 import 'config/app_database.dart';
 
 mixin DeleteByIdDbSourceAdapter<T> implements DeleteByIdDbSource<T> {
-  Database get db => AppDatabase().database;
+  Database get db => AppDatabase().db;
 
   final store = stringMapStoreFactory.store(T.toString());
 
