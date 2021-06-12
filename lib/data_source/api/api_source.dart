@@ -152,6 +152,7 @@ mixin ApiSource {
     http.Response response,
     T Function(dynamic value) mapperFunction,
   ) async {
+    _showLogs(response);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return compute(mapperFunction, _getBody(response.bodyBytes));
     } else {
