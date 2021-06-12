@@ -11,7 +11,6 @@ abstract class PlatformWidget<I extends Widget, A extends Widget>
 
   @override
   Widget build(BuildContext context) {
-    return createIosWidget(context);
     if (Platform.isAndroid) {
       return createAndroidWidget(context);
     } else if (Platform.isIOS) {

@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'bloc.dart';
 
 class BlocCache {
-  HashMap<String, Bloc> blocs = HashMap<String, Bloc>();
+  HashMap<String, Bloc?> blocs = HashMap<String, Bloc?>();
 
   static final BlocCache _cache = BlocCache._internal();
 
@@ -13,7 +13,7 @@ class BlocCache {
 
   BlocCache._internal();
 
-  static Bloc getBlocInstance(String blocKey, Function instance) {
+  static Bloc? getBlocInstance(String blocKey, Function instance) {
     var bloc = BlocCache._cache.blocs[blocKey];
 
     if (bloc != null) {

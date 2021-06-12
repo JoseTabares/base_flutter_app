@@ -6,12 +6,12 @@ import 'platform_widget.dart';
 
 class PlatformButton extends PlatformWidget<CupertinoButton, ElevatedButton> {
   final VoidCallback onPressed;
-  final String text;
-  final Color color;
+  final String? text;
+  final Color? color;
   final bool isLoading;
 
   PlatformButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.text,
     this.color,
     this.isLoading = false,
@@ -29,7 +29,7 @@ class PlatformButton extends PlatformWidget<CupertinoButton, ElevatedButton> {
                 androidStrokeWidth: 2,
               ),
             )
-          : Text(text),
+          : Text(text!),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -41,7 +41,7 @@ class PlatformButton extends PlatformWidget<CupertinoButton, ElevatedButton> {
   @override
   CupertinoButton createIosWidget(BuildContext context) {
     return CupertinoButton(
-      child: isLoading ? PlatformProgressIndicator() : Text(text),
+      child: isLoading ? PlatformProgressIndicator() : Text(text!),
       onPressed: onPressed,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
       color: color ?? Theme.of(context).cupertinoOverrideTheme?.primaryColor,

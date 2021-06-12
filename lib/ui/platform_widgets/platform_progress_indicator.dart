@@ -5,7 +5,7 @@ import 'platform_widget.dart';
 
 class PlatformProgressIndicator extends PlatformWidget<
     CupertinoActivityIndicator, CircularProgressIndicator> {
-  final Animation<Color> valueColor;
+  final Animation<Color>? valueColor;
   final double androidStrokeWidth;
   final double iOSRadius;
 

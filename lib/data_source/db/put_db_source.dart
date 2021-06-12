@@ -5,12 +5,14 @@ import 'package:sembast/sembast.dart';
 import 'config/app_database.dart';
 
 mixin PutDbSourceAdapter<T extends BaseModel> implements PutDbSource<T> {
-  Database get db => AppDatabase().db;
+  Database? get db => AppDatabase().db;
 
   final store = stringMapStoreFactory.store(T.toString());
 
   @override
-  Future put(T item, [Map args]) async {
-    await store.record(item.id).put(db, item.toJson());
+  Future put(T? item, [Map? args]) async {
+    if (item != null) {
+      await store.record(item.id).put(db!, item.toJson());
+    }
   }
 }

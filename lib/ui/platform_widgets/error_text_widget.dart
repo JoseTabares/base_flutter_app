@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ErrorTextWidget extends StatefulWidget {
-  final String text;
+  final String? text;
 
   ErrorTextWidget({
     this.text,
@@ -23,10 +23,10 @@ class _ErrorTextWidgetState extends State<ErrorTextWidget>
           : Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(
-                widget.text,
+                widget.text!,
                 style: Theme.of(context)
                     .textTheme
-                    .caption
+                    .caption!
                     .apply(color: Theme.of(context).errorColor),
                 maxLines: 3,
               ),

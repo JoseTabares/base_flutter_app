@@ -4,21 +4,21 @@ version: 0.0.1
 repository: https://github.com/JoseTabares/base_flutter_app
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  base_models: ^0.0.2
-  base_data: ^0.0.1
-  http: ^0.12.2
-  sembast: ^2.4.7+6
-  encrypt: ^4.0.2
-  crypto: ^2.1.5
-  meta: ^1.2.4
-  path_provider: ^1.6.14
+  base_models: ^2.0.0
+  base_data: ^2.0.0
+  http: ^0.13.3
+  sembast: ^3.1.0+2
+  encrypt: ^5.0.0
+  crypto: ^3.0.1
+  meta: ^1.3.0
+  path_provider: ^2.0.2
 
 dev_dependencies:
   flutter_test:

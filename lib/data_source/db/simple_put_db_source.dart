@@ -6,12 +6,14 @@ import 'config/app_database.dart';
 
 mixin SimplePutDbSourceAdapter<T extends BaseModel>
     implements SimplePutDbSource<T> {
-  Database get db => AppDatabase().db;
+  Database? get db => AppDatabase().db;
 
   final store = StoreRef.main();
 
   @override
-  Future put(T item, [Map args]) async {
-    await store.record(T.toString()).put(db, item.toJson());
+  Future put(T? item, [Map? args]) async {
+    if (item != null) {
+      await store.record(T.toString()).put(db!, item.toJson());
+    }
   }
 }

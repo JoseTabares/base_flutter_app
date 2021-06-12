@@ -9,20 +9,20 @@ import 'encrypt_codec.dart';
 class AppDatabase {
   static const String _dbName = 'appdb';
   static const String _securityDbName = 'secappdb';
-  static AppDatabase _singleton;
-  Database db;
-  Database securityDb;
+  static AppDatabase? _singleton;
+  Database? db;
+  Database? securityDb;
 
   factory AppDatabase() {
     if (_singleton == null) {
       _singleton = AppDatabase._();
     }
-    return _singleton;
+    return _singleton!;
   }
 
   AppDatabase._();
 
-  Future init({String securityDbPass}) async {
+  Future init({String? securityDbPass}) async {
     if (db == null) {
       db = await _setupDataBase(_dbName, null);
     }
@@ -31,7 +31,7 @@ class AppDatabase {
     }
   }
 
-  Future<Database> _setupDataBase(String dbName, String securityDbPass) async {
+  Future<Database> _setupDataBase(String dbName, String? securityDbPass) async {
     var appDocDirectory = await getApplicationDocumentsDirectory();
     var dbPath = '${appDocDirectory.path}/$dbName.db';
     var dbFactory = databaseFactoryIo;

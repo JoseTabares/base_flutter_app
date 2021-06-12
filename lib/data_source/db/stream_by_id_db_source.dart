@@ -6,15 +6,16 @@ import 'config/app_database.dart';
 mixin StreamByIdDbSourceAdapter<T> implements StreamByIdDbSource<T> {
   T mapper(Map<String, dynamic> value);
 
-  Database get db => AppDatabase().db;
+  Database? get db => AppDatabase().db;
 
-  final store = stringMapStoreFactory.store(T.toString());
+  final StoreRef<String?, Map<String, Object?>> store =
+      stringMapStoreFactory.store(T.toString());
 
   @override
-  Stream<T> streamById(String id, [Map args]) {
+  Stream<T?> streamById(String? id, [Map? args]) {
     return store
         .record(id)
-        .onSnapshot(db)
-        .map((record) => record == null ? null : mapper(record.value));
+        .onSnapshot(db!)
+        .map(((record) => record == null ? null : mapper(record.value)));
   }
 }

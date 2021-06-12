@@ -41,15 +41,15 @@ mixin ApiSource {
   }
 
   Future<T> getApi<T>(
-    String url,
+    Uri uri,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
     bool sendHeaders = true,
   }) async {
     headers = getHeaders(headers ?? {});
     var caller = client
         .get(
-          url,
+          uri,
           headers: sendHeaders ? headers : null,
         )
         .timeout(timeout);
@@ -57,28 +57,28 @@ mixin ApiSource {
   }
 
   Future<T> deleteApi<T>(
-    String url,
+    Uri uri,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
-    var caller = client.delete(url, headers: headers).timeout(timeout);
+    var caller = client.delete(uri, headers: headers).timeout(timeout);
 
     return _callApi(caller, mapperFunction);
   }
 
   Future<T> postApi<T>(
-    String url,
+    Uri uri,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     var newBody = getRequestBody(body);
     log(newBody, name: 'requestBody');
     var caller = client
         .post(
-          url,
+          uri,
           body: newBody,
           headers: headers,
         )
@@ -87,43 +87,47 @@ mixin ApiSource {
   }
 
   Future<T> putApi<T>(
-    String url,
+    Uri uri,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     var bodyString = getRequestBody(body);
     log(bodyString, name: 'requestBody');
     var caller =
-        client.put(url, body: bodyString, headers: headers).timeout(timeout);
+        client.put(uri, body: bodyString, headers: headers).timeout(timeout);
     return _callApi(caller, mapperFunction);
   }
 
   Future<T> patchApi<T>(
-    String url,
+    Uri uri,
     Map<String, dynamic> body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     log(json.encode(body), name: 'requestBody');
     var caller = client
-        .patch(url, body: json.encode(body), headers: headers)
+        .patch(uri, body: json.encode(body), headers: headers)
         .timeout(timeout);
 
     return _callApi(caller, mapperFunction);
   }
 
-  Future<T> multipartApi<T>(String url, Map<String, String> fields,
-      String filePath, T Function(dynamic value) mapperFunction,
-      {Map<String, String> headers}) async {
+  Future<T> multipartApi<T>(
+    Uri uri,
+    Map<String, String> fields,
+    String filePath,
+    T Function(dynamic value) mapperFunction, {
+    Map<String, String>? headers,
+  }) async {
     try {
       if (!await connectivity.isConnected()) {
         throw AppException(description: L10nConstants.defaultError);
       }
       headers = getHeaders(headers ?? {});
-      var multipart = http.MultipartRequest('POST', Uri.parse(url));
+      var multipart = http.MultipartRequest('POST', uri);
       multipart.headers.addAll(headers);
       multipart.fields.addAll(fields);
       multipart.files.add(await http.MultipartFile.fromPath('file', filePath));
@@ -201,9 +205,9 @@ mixin ApiSource {
   }
 
   void _showLogs(http.BaseResponse response) {
-    log(response.request.url.toString(), name: 'url');
-    log(response.request.method, name: 'method');
-    log(response.request.headers.toString(), name: 'headers');
+    log(response.request!.url.toString(), name: 'url');
+    log(response.request!.method, name: 'method');
+    log(response.request!.headers.toString(), name: 'headers');
     log(response.statusCode.toString(), name: 'statusCode');
   }
 }
